@@ -42,6 +42,8 @@ I would decide whether a bug was actually fixed by acting as the user for the sp
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
 - What change did you make that finally gave the game a stable secret number?
 
+The secret number wasn't changing in the original app. It only changes when the user refreshes the page or manages to start a new game. (TF Note: This might be a confusing question since the number doesn't just change for no reason.) Streamlit rerunning causes the script to be ran from top to bottom again when the user interacts with some part of the interface, but state data is preserved to avoid completely resetting data that's important for the browser sessions, such as maintaining a score within one browser session. This session data preserved by Streamlit is wiped when refreshing the page entirely, but not when interacting with a button.
+
 ---
 
 ## 5. Looking ahead: your developer habits
@@ -50,3 +52,16 @@ I would decide whether a bug was actually fixed by acting as the user for the sp
   - This could be a testing habit, a prompting strategy, or a way you used Git.
 - What is one thing you would do differently next time you work with AI on a coding task?
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+I'd certainly keep testing individual changes if I allow AI to write those changes by itself. While I prefer to ask questions and check its logic _before_ I go with the changes to decide whether I want to go through with them, I think that using AI in small chunks and letting it make changes on its own for isolated parts of the code is very useful. It makes things more efficient. I think that AI is good at isolating code rather than making entire applications easily. It should not be used for one-and-done development, and should always be double-checked. However, using AI as an assistant and collaborator can greatly increase quality of the code and project.
+
+## TF Submission: Justin Dingeman
+
+1. The core concept students needed to understand
+   - Students should understand how to isolate parts of the code before asking AI to explain what is happening and/or why bugs are occurring. The students should be able to identify bugs in an application as a user, and then use AI as a collaborator to debug and figure out why a specific part of the code might be causing problems.
+2. Where students are most likely to struggle
+   - If students have never had to develop in multi-part applications, it may become overwhelming with several files, the terminal, and the chatbot all open at the same time to gather their bearings. They also may struggle to understand Streamlit syntax and how it translates into a front end. Navigating the codebase might get confusing if they don't know how the UI is made. They also may struggle with following along with the AI as it thinks because it does it so fast and will often give itself a lot of context to fix a problem, and then just ask the developer wants to allow changes to a file without obviously showing what it's deciding to do.
+3. Where AI was helpful vs misleading
+   - The AI does not have full context or a user story necessarily, so it'll say that something is working when it's not actually intended. An example is when the AI says that every other attempt is "correctly" evaluated despite the app not actually correctly working every other attempt. It was helpful in developing tests and explaining why certain bugs were occurring and how they should be addressed.
+4. One way they would guide a student without giving the answer
+   - First I'd ask the student where they're stuck, and then have them review what they understand before jumping into something they don't. For this project, they may be tempted to tackle the whole thing in one fell swoop but they will quickly get overwhelmed. So, I'd tell them to slow down and isolate 1 issue, have them explain what the app _should_ do, what the app is _actually_ doing, and where they think the error may be occurring. Then I'd remind them again to **isolate** the issue, especially when asking the AI to help.

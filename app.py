@@ -34,6 +34,7 @@ def check_guess(guess, secret):
         return "Win", "🎉 Correct!"
 
     # FIX ME: Logic here is incorrect and telling the user to do the opposite of what it should
+    # FIX: Corrected logic so that it gives the correct hint based on whether the guess is too high or too low compared to the secret number.
     try:
         if guess > secret:
             return "Too High", "📉 Go LOWER!"
@@ -85,6 +86,7 @@ difficulty = st.sidebar.selectbox(
 # FIX ME: When changing the difficulty level, the secret number stays the same when it should reset to a 
 # new number within the new range. This can lead to confusion if the secret number is outside the new range 
 # after changing difficulty.
+# FIX: Added logic to reset the secret number when difficulty level changes, and also added dynamic attempt limit based on difficulty level.
 attempt_limit_map = {
     "Easy": 6,
     "Normal": 8,
@@ -126,6 +128,8 @@ st.subheader("Make a guess")
 
 # FIX ME: Game is only showing "Guess a number between 1 and 100" even when the difficulty is set to Easy or Hard, 
 # which have different ranges. It should show the correct range based on the selected difficulty level.
+# FIX: Removed hard coded range and replaced with dynamic range based on difficulty level. 
+# Also added attempt limit info to the message for better user experience.
 st.info(
     f"Guess a number between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
@@ -157,6 +161,9 @@ with st.form("guess_form"):
 # it should reset attempts, score, history, and status, but it only resets attempts and secret. It also
 # does not reset the input field for the guess, which can be confusing for the user, nor does it register a new attempt when clicking 
 # "Submit" after starting a new game.
+# FIX: Corrected logic so that new game preserves score across games within a brower session, but resets attempts, history, and status. 
+# Also added a unique key to the guess input field to reset it when starting a new game.
+
 if new_game:
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(low, high)
@@ -173,8 +180,10 @@ if st.session_state.status != "playing":
         st.error("Game over. Start a new game to try again.")
     st.stop()
 
-# FIX ME: The game is not correctly tracking attempts when user clicks "Submit". It will sometimes take more than one
+# FIX ME: The game is not correctly tracking attempts when user clicks "Submit Guess". It will sometimes take more than one
 # click on Submit to register an attempt and track it.
+# FIX: Corrected with logic to ensure that each click on "Submit Guess" registers an attempt and updates the game state accordingly, 
+# including validating the guess and providing feedback to the user.
 if submit:
     st.session_state.attempts += 1
 
